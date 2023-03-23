@@ -488,37 +488,37 @@ view: data_intelligence_otc {
     type: yesno
     sql:${actual_delivery_date} is not null  ;;
   }
-  
+
   measure: count_of_deliveries {
     type: count_distinct
     sql: ${delivery_number} ;;
     filters: [Delivery: "Yes"]
   }
-  
+
   measure: count_on_time_delivery {
     type: count_distinct
     sql: ${delivery_number} ;;
     filters: [OnTime: "Yes",Delivery: "Yes"]
   }
-  
+
   measure: count_in_full_delivery {
     type: count_distinct
     sql: ${delivery_number} ;;
     filters: [InFull: "Yes", Delivery: "Yes"]
   }
-  
+
   measure: count_otif {
     type: count_distinct
     sql: ${delivery_number} ;;
     filters: [OnTime_InFull: "Yes", Delivery: "Yes"]
   }
-  
+
   measure: count_latedeliveries {
     type: count_distinct
     sql: ${delivery_number} ;;
     filters: [Late_Delivery: "Yes", Delivery: "Yes"]
   }
-  
+
   measure: OnTimePercentage {
     type: number
     value_format: "0%"
@@ -544,7 +544,7 @@ view: data_intelligence_otc {
     value_format: "0%"
     sql: if(${count_of_deliveries}=0,0,round(${count_latedeliveries}/${count_of_deliveries},2))  ;;
   }
-  
+
   dimension: OnTime_InFull {
     type: yesno
     sql: ${otif}="OTIF" ;;
@@ -854,7 +854,7 @@ view: data_intelligence_otc {
   dimension: Exchange_Rate_Sales_Value{
     value_format: "0.00"
     type: number
-    sql: ${sales_order_value_Local_Currecny}/${Sales_Order_Value_Global_Currency};;
+    sql: ${sales_order_value_Local_Currecny}/NULLIF(${Sales_Order_Value_Global_Currency},0);;
   }
 
   dimension: Sales_Order_Value_Global_Currency {
